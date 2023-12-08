@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BdGoginModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Naim_Opis">
+    <Key>
+      <PropertyRef Name="Cod_tovara" />
+    </Key>
+    <Property Name="Cod_tovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Naimenovanie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Proizvod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Postav" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Cat_tovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Opisanie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Izobr" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Sklad" Relationship="Self.FK_Sklad_Naim_Opis" FromRole="Naim_Opis" ToRole="Sklad" />
+  </EntityType>
+  <EntityType Name="Polzov">
+    <Key>
+      <PropertyRef Name="cod_Pol" />
+    </Key>
+    <Property Name="cod_Pol" Type="Int32" Nullable="false" />
+    <Property Name="Familia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Ima_Otchestvo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Pochta" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Parol" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="kod_rol" Type="Int32" />
+    <NavigationProperty Name="rol" Relationship="Self.FK_Polzov_rol" FromRole="Polzov" ToRole="rol" />
+  </EntityType>
+  <EntityType Name="rol">
+    <Key>
+      <PropertyRef Name="kod_rol" />
+    </Key>
+    <Property Name="kod_rol" Type="Int32" Nullable="false" />
+    <Property Name="rol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Polzov" Relationship="Self.FK_Polzov_rol" FromRole="rol" ToRole="Polzov" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Sklad">
+    <Key>
+      <PropertyRef Name="Cod_tovara" />
+      <PropertyRef Name="ed_izm" />
+      <PropertyRef Name="Cena" />
+      <PropertyRef Name="Skidka_max" />
+      <PropertyRef Name="Skidka_dei" />
+      <PropertyRef Name="Col_na_sklade" />
+    </Key>
+    <Property Name="Cod_tovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ed_izm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cena" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Skidka_max" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Skidka_dei" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Col_na_sklade" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Naim_Opis" Relationship="Self.FK_Sklad_Naim_Opis" FromRole="Sklad" ToRole="Naim_Opis" />
+  </EntityType>
+  <Association Name="FK_Sklad_Naim_Opis">
+    <End Role="Naim_Opis" Type="Self.Naim_Opis" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sklad" Type="Self.Sklad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Naim_Opis">
+        <PropertyRef Name="Cod_tovara" />
+      </Principal>
+      <Dependent Role="Sklad">
+        <PropertyRef Name="Cod_tovara" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Polzov_rol">
+    <End Role="rol" Type="Self.rol" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Polzov" Type="Self.Polzov" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rol">
+        <PropertyRef Name="kod_rol" />
+      </Principal>
+      <Dependent Role="Polzov">
+        <PropertyRef Name="kod_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BdGoginEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Naim_Opis" EntityType="Self.Naim_Opis" />
+    <EntitySet Name="Polzov" EntityType="Self.Polzov" />
+    <EntitySet Name="rol" EntityType="Self.rol" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Sklad" EntityType="Self.Sklad" />
+    <AssociationSet Name="FK_Sklad_Naim_Opis" Association="Self.FK_Sklad_Naim_Opis">
+      <End Role="Naim_Opis" EntitySet="Naim_Opis" />
+      <End Role="Sklad" EntitySet="Sklad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Polzov_rol" Association="Self.FK_Polzov_rol">
+      <End Role="rol" EntitySet="rol" />
+      <End Role="Polzov" EntitySet="Polzov" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

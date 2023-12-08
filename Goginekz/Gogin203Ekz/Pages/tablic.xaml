@@ -1,0 +1,29 @@
+﻿<Page x:Class="Gogin203Ekz.Pages.tablic"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Gogin203Ekz.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="tablic">
+
+    <Grid Background="White" MinWidth="400" MinHeight="200">
+    
+        <DataGrid x:Name="Tablic"  HorizontalAlignment="Center" Height="350" VerticalAlignment="Top" Width="500" AutoGenerateColumns="True" IsReadOnly="True" SelectionChanged="Tablic_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код.товара" Width="70" Binding="{Binding Cod_tovara}"/>
+                <DataGridTextColumn Header="Наименование" Width="70" Binding="{Binding Naimenovanie}"/>
+                <DataGridTextColumn Header="Производитель" Width="70" Binding="{Binding Proizvod}"/>
+                <DataGridTextColumn Header="Поставщик" Width="70" Binding="{Binding Postav}"/>
+                <DataGridTextColumn Header="Категория.товара" Width="70" Binding="{Binding Cat_tovara}"/>
+                <DataGridTextColumn Header="Описание.товара" Width="70" Binding="{Binding Opisanie}"/>
+             
+            </DataGrid.Columns>
+        </DataGrid>
+        <ComboBox  VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="120">
+            <ComboBoxItem Content="Возростание" HorizontalAlignment="Left" Width="118"/>
+        </ComboBox>
+
+    </Grid>
+</Page>
